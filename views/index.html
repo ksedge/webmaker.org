@@ -25,14 +25,24 @@
           el = $el[ 0],
           makeType = data.tags.makeType;
       $el.addClass( "make-" + makeType );
+      console.log(data);
       $( ".title", $el ).text( data.title );
-      $( ".make-type", $el ).text( makeType );
+      //$( ".make-type", $el ).text( makeType );
+      $a = $('<a>');
+      $a.attr('href', data.url);
+      $img = $('<img>');
+      $img.attr('src', data.thumbnail);
+      $a.append($img);
+      $el.append($a);
       $mainGallery.append( $el );
       packery.appended( el );
 
       if ( makeType === "popcorn" ) {
-        $el.addClass( "make-big" );
+	$el.addClass( "make-w2" );
       }
+
+      // re-layout
+      packery.layout();
 
     });
   </script>

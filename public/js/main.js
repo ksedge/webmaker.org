@@ -41,7 +41,7 @@ Webmaker = function() {
 
   function SSO() {
     var personaSSO = navigator.personaSSO;
-    console.log( navigator.personaSSO.init );
+    //console.log( navigator.personaSSO.init );
     personaSSO.init( document.getElementById("SSO") );
     personaSSO.id.watch({
       onlogin: function(topic, data){

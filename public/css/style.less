@@ -1,4 +1,17 @@
 @import "webfonts";
+/*********************************************************
+* MIXINS
+*/
+
+.border-box {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+	  box-sizing: border-box;
+}
+
+/*********************************************************
+* BODY
+*/
 
 body {
   background: #F5F5F5;
@@ -16,9 +29,7 @@ body {
   height: 83px;
   margin-bottom: 1em;
   border-bottom: 1px solid #DDD;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+  .border-box;
 }
 
 .logo {
@@ -83,25 +94,55 @@ body {
 * MAKE
 */
 
+@make_width: 200px;
+@make_height: 150px;
+
 .make {
+  color: white;
   position: relative;
-  width: 200px;
-  height: 150px;
+  width: @make_width;
+  height: @make_height;
   padding: 1em;
   border: 1px solid;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+  .border-box;
+  overflow: hidden;
+  a{
+    max-width: 100%;
+    max-height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    img {
+      z-index: -1;
+    }
+    left: 0;
+  }
+}
+
+.make-back {
+
 }
 
 .make-popcorn {
   color: #3FB58E;
 }
 
-.make-big {
-  width: 400px;
-}
-
 .make-thimble {
   color: #63D9E5;
+}
+
+.make-w2 {
+  width: @make_width * 2;
+}
+
+.make-w3 {
+  width: @make_width * 3;
+}
+
+.make-h2 {
+  height: @make_height * 2;
+}
+
+.make-h3 {
+  height: @make_height * 3;
 }
