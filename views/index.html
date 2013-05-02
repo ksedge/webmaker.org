@@ -1,10 +1,7 @@
 {% extends "layout.html" %}
 {% block title %}Home{% endblock %}
 {% block body %}
-  <div class="main-gallery">
-
-
-  </div>
+  <div class="main-gallery"></div>
   <div class="make" style="display: none;">
     <div class="make-type"></div>
     <div class="title"></div>
@@ -12,38 +9,49 @@
 {% endblock %}
 {% block scripts %}
   <script>
-    var mainGallery = document.querySelector( ".main-gallery" ),
-        $mainGallery = $( mainGallery ),
-	$makeTemplate = $( ".make" );
+// needed variables
+var LIMIT = 30;
 
-    var packery = new Packery( mainGallery, {
-      gutter: 10
-    });
+var mainGallery = document.querySelector( ".main-gallery" ),
+    $mainGallery = $( mainGallery ),
+    $makeTemplate = $( ".make" );
 
-    wm.doSearch( "featured", 30, function( data ) {
-      var $el = $makeTemplate.clone( true ).css( "display", "" ),
-          el = $el[ 0],
-          makeType = data.tags.makeType;
-      $el.addClass( "make-" + makeType );
-      console.log(data);
-      $( ".title", $el ).text( data.title );
-      //$( ".make-type", $el ).text( makeType );
-      $a = $('<a>');
-      $a.attr('href', data.url);
-      $img = $('<img>');
-      $img.attr('src', data.thumbnail);
-      $a.append($img);
-      $el.append($a);
-      $mainGallery.append( $el );
-      packery.appended( el );
+// needed methods
+function searchCallback( data ){
+  var $makeContainer = $makeTemplate.clone( true ).css( "display", "" ),
+      makeContainer = $makeContainer[ 0 ],
+      makeType = data.tags.makeType;
 
-      if ( makeType === "popcorn" ) {
-	$el.addClass( "make-w2" );
-      }
+  // create front Element & populate
+  $frontEl = $('<div>').addClass('front');
+  $a = $(  '<a>' ).attr( 'href', data.url );
+  $img = $( '<img>' ).attr( 'src', data.thumbnail );
+  $a.append( $img );
+  $frontEl.append( $a );
 
-      // re-layout
-      packery.layout();
+  // create back element & populate
+  $backEl = $('<div>').addClass('back)');
 
-    });
+  // add front & back elements to flip container
+  $makeContainer.append( $frontEl );
+  $makeContainer.append( $backEl );
+
+  // TODO: add flip container to make container
+
+  // add to gallery & packery
+  $mainGallery.append( $makeContainer );
+  packery.appended( makeContainer );
+
+  // re-layout
+  packery.layout();
+}
+
+// set up Packerly
+var packery = new Packery( mainGallery, {
+  gutter: 10
+});
+
+// perform search
+wm.doSearch( "featured", LIMIT, searchCallback);
   </script>
 {% endblock %}
