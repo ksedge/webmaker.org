@@ -2,10 +2,7 @@
 {% block title %}Home{% endblock %}
 {% block body %}
   <div class="main-gallery"></div>
-  <div class="make" style="display: none;">
-    <div class="make-type"></div>
-    <div class="title"></div>
-  </div>
+  <div class="make" style="display: none;"></div>
 {% endblock %}
 {% block scripts %}
   <script>
@@ -24,19 +21,22 @@ function searchCallback( data ){
 
   // create front Element & populate
   $frontEl = $('<div>').addClass('front');
-  $a = $(  '<a>' ).attr( 'href', data.url );
   $img = $( '<img>' ).attr( 'src', data.thumbnail );
-  $a.append( $img );
-  $frontEl.append( $a );
+  $frontEl.append( $img );
 
   // create back element & populate
-  $backEl = $('<div>').addClass('back)');
+  $backEl = $('<div>').addClass('back');
+  $backEl.text('2');
 
   // add front & back elements to flip container
-  $makeContainer.append( $frontEl );
-  $makeContainer.append( $backEl );
+  $flip = $('<div>').addClass('flipContainer');
+  $flip.append( $frontEl );
+  $flip.append( $backEl );
 
-  // TODO: add flip container to make container
+  // add flip container & link to make container
+  $a = $(  '<a>' ).attr( 'href', data.url );
+  $a.append( $flip );
+  $makeContainer.append( $a );
 
   // add to gallery & packery
   $mainGallery.append( $makeContainer );
@@ -48,10 +48,20 @@ function searchCallback( data ){
 
 // set up Packerly
 var packery = new Packery( mainGallery, {
-  gutter: 10
+  gutter: 10,
+  itemSelector: '.make'
 });
 
 // perform search
 wm.doSearch( "featured", LIMIT, searchCallback);
+
+// set up mouse over handlers
+$makeTemplate.mouseenter(function(e){
+  $( '.flipContainer', this ).toggleClass('flip');
+});
+
+$makeTemplate.mouseleave(function(e){
+  $( '.flipContainer', this ).toggleClass('flip');
+});
   </script>
 {% endblock %}
