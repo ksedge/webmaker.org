@@ -1,8 +1,23 @@
 {% extends "layout.html" %}
 {% block title %}Home{% endblock %}
 {% block body %}
-  <div class="main-gallery"></div>
+  <div class="main-gallery">
+    <div class="gutter-sizer"></div>
+    <div class="grid-sizer"></div>
+  </div>
   <div class="make" style="display: none;"></div>
+  <div class="make-back" style="display: none;">
+    Made at <span class="place bold"></span> by <span class="author bold"></span><br />
+    Using TOOL and TEMPLATE<br /><br />
+    <span class="description"></span>
+  </div>
+  <div class="event-back" style="display: none;">
+    <h4 class="event-title"></h4>
+    <span class="date"></span><br />
+    <span class="place"></span><br /><br />
+    <span class="description"></span><br />
+    Organized by <span class="organizer"></span>
+  </div>
 {% endblock %}
 {% block scripts %}
   <script>
@@ -12,24 +27,73 @@ var LIMIT = 30;
 var mainGallery = document.querySelector( ".main-gallery" ),
     $mainGallery = $( mainGallery ),
     $makeTemplate = $( ".make" );
+    $makeBackTemplate = $( ".make-back" );
+    $eventBackTemplate = $( ".event-back" );
 
 // needed methods
+function createMakeBack ( data, $el ){
+  $backTemplate = $makeBackTemplate.clone( true ).css( "display", "" );
+  $placeSpan = $('.place', $backTemplate);
+  $placeSpan.text ('PLACE');
+  j = $('<span>');
+  $authorSpan = $('.author', $backTemplate);
+  $authorSpan.text( data.author );
+  $descSpan = $('.description', $backTemplate);
+  $descSpan.text( data.description );
+  $el.append($backTemplate);
+}
+
+function createEventBack ( data, $el ){
+  $backTemplate = $eventBackTemplate.clone( true ).css( "display", "" );
+  $eventSpan = $( '.event-title', $backTemplate );
+  $eventSpan.text( data.title );
+  $dateSpan = $('.date', $backTemplate);
+  $dateSpan.text('DATE');
+  $placeSpan = $('.place', $backTemplate);
+  $placeSpan.text('PLACE');
+  $descSpan = $('.description', $backTemplate);
+  $descSpan.text( data.description );
+  $organizerSpan = $('.organizer', $backTemplate);
+  $organizerSpan.text( 'MOZILLA' );
+  $el.append($backTemplate);
+}
+
 function searchCallback( data ){
   var $makeContainer = $makeTemplate.clone( true ).css( "display", "" ),
       makeContainer = $makeContainer[ 0 ];
 
-console.log(data)
+      console.log( data )
   // create front Element & populate
   $frontEl = $('<div>').addClass('front');
-  $itemTitle = $('<div>').addClass('make-item-title');
-  $itemTitle.text( data.title );
   $img = $( '<img>' ).attr( 'src', data.thumbnail );
-  $frontEl.append( $itemTitle );
   $frontEl.append( $img );
 
   // create back element & populate
   $backEl = $('<div>').addClass('back');
-  $backEl.text( data.description );
+  if ( data.tags.makeType === 'popcorn' ) {
+    $makeContainer.addClass('make-popcorn');
+    createMakeBack( data, $backEl);
+  }
+  else if ( data.tags.makeType === 'thimble' ) {
+    $makeContainer.addClass('make-thimble make-w2');
+    createMakeBack( data, $backEl);
+  }
+  else if ( data.tags.makeType === 'challenge' ) {
+    $makeContainer.addClass('make-challenge');
+    createMakeBack( data, $backEl);
+  }
+  else if ( data.tags.makeType === 'event' ) {
+    $makeContainer.addClass('make-event make-h2');
+    createEventBack( data, $backEl);
+  }
+  else if ( data.tags.makeType === 'kit' ) {
+    $makeContainer.addClass('make-kit');
+    createMakeBack( data, $backEl);
+  }
+  else if ( data.tags.makeType === 'demo' ) {
+    $makeContainer.addClass('make-demo');
+    createMakeBack( data, $backEl);
+  }
 
   // add front & back elements to flip container
   $flip = $('<div>').addClass('flipContainer');
@@ -51,8 +115,9 @@ console.log(data)
 
 // set up Packerly
 var packery = new Packery( mainGallery, {
-  gutter: 10,
-  itemSelector: '.make'
+  itemSelector: '.make',
+  gutter: '.gutter-sizer',
+  columnWidth: '.grid-sizer'
 });
 
 // perform search

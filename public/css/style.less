@@ -8,6 +8,18 @@
 	  box-sizing: border-box;
 }
 
+.border-radius (@radius: 5px) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius:    @radius;
+  border-radius:         @radius;
+}
+
+.box-shadow {
+  -webkit-box-shadow: 0px 2px 4px black;
+     -moz-box-shadow: 0px 2px 4px black;
+	  box-shadow: 0px 2px 4px black;
+}
+
 .perspective (@p: 1000) {
   -webkit-perspective: @p;
      -moz-perspective: @p;
@@ -126,21 +138,29 @@ body {
 * MAKE
 */
 
-@make_width: 200px;
+@make_width: 18.4%;
 @make_height: 150px;
+
+.main-gallery:after {
+  content: ' ';
+  display: block;
+  clear: both;
+}
 
 .make {
   color: white;
   position: relative;
   width: @make_width;
   height: @make_height;
-  border: 1px solid;
   overflow: hidden;
+  border: 1px solid grey;
+
+  .border-radius;
   .border-box;
+  .box-shadow;
   .perspective(800px);
 
-
-  a{
+  a {
     top: 0;
     left: 0;
     max-width: 100%;
@@ -149,8 +169,24 @@ body {
   } // end a
 } // end .make
 
+
+.gutter-sizer {
+  width: 2%;
+}
+
+.grid-sizer {
+  width: 18.4%;
+}
+.bold {
+  font-weight: bold;
+}
+
+.event-title {
+  margin: 0;
+  padding: 0;
+}
+
 .flipContainer {
-  //.threedee-transition(1s);
   -webkit-transform-style: preserve-3d;
   -webkit-transition: -webkit-transform 0.3s;
   -moz-transform-style: preserve-3d;
@@ -170,15 +206,16 @@ body {
 
 .front,
 .back {
-  display: block;
   .backface-visibility(hidden);
+  display: block;
+  position: absolute;
   width: 100%;
   height: 100%;
-  position: absolute;
 }
 
 .back {
-  background: red;
+  color: black;
+  background: white;
   .rotateY(180deg);
 }
 
@@ -186,8 +223,30 @@ body {
   .rotateY(180deg);
 }
 
+@make-border-size: 7px;
+
 .make-popcorn {
-  color: #3FB58E;
+  border-bottom: @make-border-size solid yellow;
+}
+
+.make-thimble {
+  border-bottom: @make-border-size solid green;
+}
+
+.make-challenge {
+  border-bottom: @make-border-size solid orange;
+}
+
+.make-event {
+  border-bottom: @make-border-size solid blue;
+}
+
+.make-kit {
+  border-bottom: @make-border-size solid pink;
+}
+
+.make-demo {
+  border-bottom: @make-border-size solid black;
 }
 
 .make-thimble {
