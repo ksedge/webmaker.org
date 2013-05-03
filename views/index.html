@@ -16,17 +16,20 @@ var mainGallery = document.querySelector( ".main-gallery" ),
 // needed methods
 function searchCallback( data ){
   var $makeContainer = $makeTemplate.clone( true ).css( "display", "" ),
-      makeContainer = $makeContainer[ 0 ],
-      makeType = data.tags.makeType;
+      makeContainer = $makeContainer[ 0 ];
 
+console.log(data)
   // create front Element & populate
   $frontEl = $('<div>').addClass('front');
+  $itemTitle = $('<div>').addClass('make-item-title');
+  $itemTitle.text( data.title );
   $img = $( '<img>' ).attr( 'src', data.thumbnail );
+  $frontEl.append( $itemTitle );
   $frontEl.append( $img );
 
   // create back element & populate
   $backEl = $('<div>').addClass('back');
-  $backEl.text('2');
+  $backEl.text( data.description );
 
   // add front & back elements to flip container
   $flip = $('<div>').addClass('flipContainer');

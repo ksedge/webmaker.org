@@ -151,11 +151,21 @@ body {
 
 .flipContainer {
   //.threedee-transition(1s);
--webkit-transform-style: preserve-3d;
--webkit-transition: -webkit-transform 0.3s;
+  -webkit-transform-style: preserve-3d;
+  -webkit-transition: -webkit-transform 0.3s;
+  -moz-transform-style: preserve-3d;
+  -moz-transition: -moz-transform 0.3s;
   position: absolute;
   width: 100%;
   height: 100%;
+}
+
+.make-item-title {
+  color: white;
+  text-shadow: black 1px 1px;
+  position: absolute;
+  bottom: 0;
+  left: 2px;
 }
 
 .front,
