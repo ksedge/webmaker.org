@@ -326,7 +326,7 @@ app.get("/privacy", routes.page("privacy"));
 
 var personaHostname = env.get("PERSONA_HOSTNAME", "https://login.persona.org");
 
-app.get("/sso/include.js", routes.includejs(env.get("HOSTNAME")));
+app.get("/sso/include.js", routes.includejs(env.get("APP_HOSTNAME")));
 app.get("/sso/include.html", routes.include({
   personaHostname: personaHostname
 }));
